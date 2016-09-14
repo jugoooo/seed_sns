@@ -6,13 +6,14 @@
   if (!empty($_POST)){
     //半角スペースと全角スペースの除去
     $nick_name =trim(mb_convert_kana($_POST['nick_name'],"s",'UTF-8'));
+    $email =trim(mb_convert_kana($_POST['email'],"s",'UTF-8'));
     //エラー項目の確認
     //ニックネームが未入力
     if($nick_name == ''){
       $error['nick_name']= 'blank';
   }
   //メールアドレスが未入力
-  if ($_POST['email']==''){
+  if ($email==''){
     $error['email']='blank';
   }
   //パスが未入力
@@ -96,16 +97,23 @@ if($_POST['password']==''){
             <?php else: ?>
               <input type="text" name="nick_name" class="form-control" placeholder="例： Seed kun">
             <?php endif; ?>
-              <?php if (isset($error['nick_name']) && ($error['nick_name'])=='blank'):?>
+            <?php if (isset($error['nick_name']) && $error['nick_name']=='blank'):?>
                 <p class="error">*ニックネームを入力してください。</p>
-              <?php endif; ?>
+            <?php endif; ?>
             </div>
           </div>
           <!-- メールアドレス -->
           <div class="form-group">
             <label class="col-sm-4 control-label">メールアドレス</label>
             <div class="col-sm-8">
+            <?php if(isset($_POST['email'])):?>
               <input type="email" name="email" class="form-control" placeholder="例： seed@nex.com" value="<?php echo htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8');?>">
+            <?php else:?>
+              <input type="email" name="email" class="form-control" placeholder="例： seed@nex.com">
+            <?php endif;?>
+            <?php if (isset($error['email']) && $error['email']=='blank'):?>
+                <p class="error">*メールアドレスを入力してください。</p>
+            <?php endif;?>
             </div>
           </div>
           <!-- パスワード -->
