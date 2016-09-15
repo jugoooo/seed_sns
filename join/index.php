@@ -153,13 +153,14 @@ if($password==''){
           <div class="form-group">
             <label class="col-sm-4 control-label">プロフィール写真</label>
             <div class="col-sm-8">
-            <?php if ($error['image']=='type'):?>
+            <input type="file" name="picture_path" class="form-control">
+            <?php if (isset($error['picture_path']) && $error['picture_path']=='type'):?>
               <p class= "error">写真などは「.gif」か「.jpg」か「.png」の画像を指定してください。</p>
             <?php endif;?>
             <?php if (!empty($error)):?>
               <p class= "error">恐れ入りますが、画像を改めて指定してください。</p>
             <?php endif;?>
-              <input type="file" name="picture_path" class="form-control">
+              
             </div>
           </div>
 
