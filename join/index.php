@@ -48,7 +48,18 @@ if($password==''){
   }
 }
 
-?><!DOCTYPE html>
+//書き直し  $_REQUESTは$_GETでも大丈夫、わかりやすくしてるだけ
+if (isset($_REQUEST['action'])&& $_REQUEST['action']== 'rewrite'){
+  $_POST= $_SESSION['join'];
+  $error['rewrite']= true;
+}
+
+
+?>
+
+
+
+<!DOCTYPE html>
 <html lang="ja">
   <head>
     <meta charset="utf-8">
