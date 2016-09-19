@@ -1,4 +1,7 @@
 <?php
+//dbconnect.phpを読み込む
+  require('../dbconnect.php');
+
 //セッションを使うページに必ず入れる
   session_start();
 
@@ -33,6 +36,22 @@ if($password==''){
       $error['picture_path']= 'type';
     }
   }
+
+//メールアドレス重複チェック
+  if(empty($error)){
+    $sql=sprintf('SELECT COUNT(*) AS cnt FROM `members` WHERE`email`="%s"',
+      mysqli_real_escape_string($db, $email)
+      );
+    //SQL実行
+    $record= mysqli_query($db, $sql)or die(mysqli_error($db));
+    //連想配列としてSQL実行結果を受け取る
+    $table= mysqli_fetch_assoc($record);
+    if($table['cnt']>0){
+      //同じエラーが1件以上あったらエラー
+      $error['email']= 'duplicate';
+    }
+  }
+
 
 //エラーがない場合
   if(empty($error)){
@@ -139,6 +158,9 @@ if (isset($_REQUEST['action'])&& $_REQUEST['action']== 'rewrite'){
             <?php endif;?>
             <?php if (isset($error['email']) && $error['email']=='blank'):?>
                 <p class="error">*メールアドレスを入力してください。</p>
+            <?php endif;?>
+            <?php if (isset($error['email']) && $error['email']=='duplicate'):?>
+                <p class="error">*指定されたメールアドレスは既に登録されています。</p>
             <?php endif;?>
             </div>
           </div>
